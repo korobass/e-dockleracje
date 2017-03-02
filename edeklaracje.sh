@@ -73,6 +73,8 @@ fi
 # na wszelki wypadek pytamy juzera
 if [ -e "$HOME"/.appdata/e-Deklaracje* ]; then
   EDEKLARACJE_DIR=`echo $HOME/.appdata/e-Deklaracje* `
+  # kopia zaposowa e-deklarcji na wypadek gdyby user jej nie zrobił
+  cp -pr $HOME/.appdata $HOME/.appdata-`date "+%m.%d.%Y-%H:%M:%S"`
   echo -ne "\n\nUWAGA UWAGA UWAGA UWAGA UWAGA UWAGA UWAGA UWAGA UWAGA\nUżyty zostanie istniejący profil e-Deklaracji.\n\nMOCNO ZALECANE JEST ZROBIENIE KOPII ZAPASOWEJ PRZED KONTYNUOWANIEM!\n\nProfil znajduje się w katalogu:\n$EDEKLARACJE_DIR\n\nCzy zrobiłeś kopię zapasową i chcesz kontynuować? (T/n) "
   read BUILD
   if [[ $BUILD == 'n' ]]; then
