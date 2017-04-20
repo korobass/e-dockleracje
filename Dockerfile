@@ -17,6 +17,10 @@ ENV LANG pl_PL.UTF-8
 ENV LANGUAGE pl_PL:pl
 ENV LC_ALL pl_PL.UTF-8
 
+# set timezone to Warsaw
+RUN echo "Europe/Warsaw" > /etc/timezone
+RUN dpkg-reconfigure -f noninteractive tzdata
+
 #http://docs.docker.com/engine/articles/dockerfile_best-practices/#add-or-copy
 RUN wget -O /opt/air.bin --progress=bar:force http://airdownload.adobe.com/air/lin/download/latest/AdobeAIRInstaller.bin \
       && chmod +x /opt/air.bin \
@@ -42,6 +46,7 @@ RUN xvfb-run '/opt/Adobe AIR/Versions/1.0/Adobe AIR Application Installer' -sile
 # reszta ustawień
 ADD run.sh /opt/wrapper.sh
 RUN chmod a+x /opt/wrapper.sh
+RUN mkdir $HOME/tmp
 WORKDIR /opt
 
 RUN echo -ne "\n\nUruchom za pomocą ./edeklaracje.sh\n\n"

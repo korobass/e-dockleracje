@@ -73,7 +73,7 @@ fi
 # na wszelki wypadek pytamy juzera
 if [ -e "$HOME"/.appdata/e-Deklaracje* ]; then
   EDEKLARACJE_DIR=`echo $HOME/.appdata/e-Deklaracje* `
-  # kopia zaposowa e-deklarcji na wypadek gdyby user jej nie zrobił
+  # kopia zapasowa e-deklarcji na wypadek gdyby user jej nie zrobił
   cp -pr $HOME/.appdata $HOME/.appdata-`date "+%m.%d.%Y-%H:%M:%S"`
   echo -ne "\n\nUWAGA UWAGA UWAGA UWAGA UWAGA UWAGA UWAGA UWAGA UWAGA\nUżyty zostanie istniejący profil e-Deklaracji.\n\nMOCNO ZALECANE JEST ZROBIENIE KOPII ZAPASOWEJ PRZED KONTYNUOWANIEM!\n\nProfil znajduje się w katalogu:\n$EDEKLARACJE_DIR\n\nCzy zrobiłeś kopię zapasową i chcesz kontynuować? (T/n) "
   read BUILD
@@ -92,6 +92,7 @@ HOST_IP=`/sbin/ip -4 addr show $HOST_IP_DEV | grep -Po 'inet \K[\d.]+'`
 docker run --rm -ti \
   -v "$XSOCK":"$XSOCK" \
   -v "$HOME/.appdata":"$HOME/.appdata" \
+  -v "$HOME/tmp":"$HOME/tmp" \
   -e EDEKLARACJE_USER="$USER" \
   -e EDEKLARACJE_UID="` id -u $USER `" \
   -e EDEKLARACJE_GID="` id -g $USER `" \
