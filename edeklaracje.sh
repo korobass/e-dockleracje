@@ -83,6 +83,10 @@ if [ -e "$HOME"/.appdata/e-Deklaracje* ]; then
   fi
 fi
 
+# if tmp directory doesn't exist on host create it before
+if [ ! -d $HOME/tmp ]; then
+	mkdir $HOME/tmp
+fi
 # jedziemy
 echo -ne "\nUruchamiam kontener $CONTAINER_NAME...\n"
 
