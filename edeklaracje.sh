@@ -70,6 +70,22 @@ if [[ `docker inspect -f '{{.State}}' "$CONTAINER_NAME"` != '<no value>' ]]; the
   docker rm -v "$CONTAINER_NAME"
 fi
 
+
+# define where your backup .appdata are
+E_DIR_B=$HOME/Gdrive/Dokumenty/e-deklaracje/.appdata
+E_DIR=$HOME/.appdata
+# Get the dir name where Backups lays
+E=$(find "$E_DIR_B" -maxdepth 1 -type d  -name "e-Deklaracje*" | awk -F/ '{ print $NF }')
+# if there is a copy and there is no .appdata dir in home directory
+if [[ -d $E_DIR_B ]] && [[ ! -d $E_DIR/$E ]]; then
+        echo "Backup dir of e-deklracje existis, $E"
+        if [ ! -d $E_DIR ]; then
+                mkdir $E_DIR
+        fi
+        echo "copying all files from backup $E_DIR_B to $E_DIR"
+        rsync -a --progress $E_DIR_B/ $E_DIR/
+fi
+
 # na wszelki wypadek pytamy juzera
 if [ -e "$HOME"/.appdata/e-Deklaracje* ]; then
   EDEKLARACJE_DIR=`echo $HOME/.appdata/e-Deklaracje* `
