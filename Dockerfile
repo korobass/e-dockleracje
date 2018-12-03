@@ -3,8 +3,33 @@ FROM ubuntu:14.04
 RUN set -e -x ; \
       dpkg --add-architecture i386 ; \
       DEBIAN_FRONTEND=noninteractive apt-get update ; \
+      DEBIAN_FRONTEND=noninteractive apt-get upgrade ; \
       apt-get -y install x11-apps xauth wget xvfb ; \
-      DEBIAN_FRONTEND=noninteractive apt-get -y install libgtk2.0-0:i386 libstdc++6:i386 libnss3-1d:i386 lib32nss-mdns libxml2:i386 libxslt1.1:i386 libxslt1.1 libcanberra-gtk-module:i386 gtk2-engines-murrine:i386 libqt4-qt3support:i386 libgnome-keyring0:i386
+      DEBIAN_FRONTEND=noninteractive apt-get -y install libgtk2.0-0:i386 \
+							libstdc++6:i386 \
+							libnss3-1d:i386 \
+							lib32nss-mdns \
+							libxml2:i386 \
+							libxslt1.1:i386 \
+							libxslt1.1 \
+							libcanberra-gtk-module:i386 \
+							gtk2-engines-murrine:i386 \
+							libqt4-qt3support:i386 \
+							libgnome-keyring0:i386
+
+RUN dpkg --add-architecture i386; \
+    DEBIAN_FRONTEND=noninteractive apt-get install libgtk2.0-0:i386 \
+					       	   libstdc++6:i386 \
+					           libnss3-1d:i386 \
+					           lib32nss-mdns \
+					           libxml2:i386 \
+					           libxslt1.1:i386 \
+					           libcanberra-gtk-module:i386 \
+					           gtk2-engines-murrine:i386 \
+					           libqt4-qt3support:i386 \
+					           unzip \
+					           libgnome-keyring0:i386; \
+     rm -rf /var/lib/apt/lists/*
 
 RUN ln -s /usr/lib/i386-linux-gnu/libgnome-keyring.so.0 /usr/lib/libgnome-keyring.so.0
 RUN ln -s /usr/lib/i386-linux-gnu/libgnome-keyring.so.0.2.0 /usr/lib/libgnome-keyring.so.0.2.0
@@ -21,6 +46,11 @@ ENV LC_ALL pl_PL.UTF-8
 RUN echo "Europe/Warsaw" > /etc/timezone
 RUN dpkg-reconfigure -f noninteractive tzdata
 
+# adobe air sdk
+RUN wget http://airdownload.adobe.com/air/lin/download/2.6/AdobeAIRSDK.tbz2 -P /tmp; \ 
+    mkdir -p /opt/adobe-air-sdk; \
+    tar jxf /tmp/AdobeAIRSDK.tbz2 -C /opt/adobe-air-sdk
+
 #http://docs.docker.com/engine/articles/dockerfile_best-practices/#add-or-copy
 RUN wget -O /opt/air.bin --progress=bar:force http://airdownload.adobe.com/air/lin/download/latest/AdobeAIRInstaller.bin \
       && chmod +x /opt/air.bin \
@@ -31,6 +61,7 @@ RUN wget -O /opt/air.bin --progress=bar:force http://airdownload.adobe.com/air/l
 RUN wget -O /opt/acroread.deb --progress=bar:force http://ardownload.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i386linux_enu.deb \
       && DEBIAN_FRONTEND=noninteractive dpkg -i --force-architecture /opt/acroread.deb \
       && rm /opt/acroread.deb
+
 
 #drukowanie
 #http://superuser.com/questions/101675/printing-via-adobe-reader-under-linux-and-cups

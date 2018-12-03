@@ -72,7 +72,7 @@ fi
 
 
 # define where your backup .appdata are
-E_DIR_B=$HOME/Gdrive/Dokumenty/e-deklaracje/.appdata
+E_DIR_B=$HOME/Documents-sync/e-deklaracje/.appdata
 E_DIR=$HOME/.appdata
 # Get the dir name where Backups lays
 E=$(find "$E_DIR_B" -maxdepth 1 -type d  -name "e-Deklaracje*" | awk -F/ '{ print $NF }')
@@ -86,7 +86,7 @@ if [[ -d $E_DIR_B ]] && [[ ! -d $E_DIR/$E ]]; then
         rsync -a --progress $E_DIR_B/ $E_DIR/
 fi
 
-BACKUP=$HOME/Gdrive/Dokumenty/e-deklaracje/
+BACKUP=$HOME/Documents-sync/e-deklaracje
 
 # na wszelki wypadek pytamy juzera
 if [ -e "$HOME"/.appdata/e-Deklaracje* ]; then
