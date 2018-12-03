@@ -1,38 +1,28 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
 RUN set -e -x ; \
       dpkg --add-architecture i386 ; \
-      DEBIAN_FRONTEND=noninteractive apt-get update ; \
-      DEBIAN_FRONTEND=noninteractive apt-get upgrade ; \
-      apt-get -y install x11-apps xauth wget xvfb ; \
-      DEBIAN_FRONTEND=noninteractive apt-get -y install libgtk2.0-0:i386 \
+      DEBIAN_FRONTEND=noninteractive apt-get update -y; \
+      apt-get -y install x11-apps xauth wget xvfb ant apt-utils locate; \
+      DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y ; \
+      DEBIAN_FRONTEND=noninteractive apt-get -y install libxt6:i386 \
+							libnspr4-0d:i386 \
+							libgtk2.0-0:i386 \
 							libstdc++6:i386 \
 							libnss3-1d:i386 \
-							lib32nss-mdns \
+							libnss-mdns:i386 \
 							libxml2:i386 \
 							libxslt1.1:i386 \
-							libxslt1.1 \
-							libcanberra-gtk-module:i386 \
+							#libcanberra-gtkmodule:i386 \
 							gtk2-engines-murrine:i386 \
 							libqt4-qt3support:i386 \
-							libgnome-keyring0:i386
-
-RUN dpkg --add-architecture i386; \
-    DEBIAN_FRONTEND=noninteractive apt-get install libgtk2.0-0:i386 \
-					       	   libstdc++6:i386 \
-					           libnss3-1d:i386 \
-					           lib32nss-mdns \
-					           libxml2:i386 \
-					           libxslt1.1:i386 \
-					           libcanberra-gtk-module:i386 \
-					           gtk2-engines-murrine:i386 \
-					           libqt4-qt3support:i386 \
-					           unzip \
-					           libgnome-keyring0:i386; \
+							libgnome-keyring0:i386 \
+							libxaw7 ; \
      rm -rf /var/lib/apt/lists/*
 
-RUN ln -s /usr/lib/i386-linux-gnu/libgnome-keyring.so.0 /usr/lib/libgnome-keyring.so.0
-RUN ln -s /usr/lib/i386-linux-gnu/libgnome-keyring.so.0.2.0 /usr/lib/libgnome-keyring.so.0.2.0
+RUN locate libgnome-keyring.so /usr/lib/i386-linux-gnu/libgnome-keyring.so.0 /usr/lib/i386-linuxgnu/libgnome-keyring.so.0.2.0
+RUN  ln -s /usr/lib/i386-linux-gnu/libgnome-keyring.so.0 /usr/lib/libgnome-keyring.so.0
+RUN  ln -s /usr/lib/i386-linux-gnu/libgnome-keyring.so.0.2.0 /usr/lib/libgnomekeyring.so.0.2.0
 
 # właściwe locale jest właściwe
 # http://jaredmarkell.com/docker-and-locales/
