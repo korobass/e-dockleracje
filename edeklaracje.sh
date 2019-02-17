@@ -25,7 +25,8 @@ e-Deklaracje w dockerze
 '
 
 # X cookie -- konieczne do poprawnego działania X serwera
-COOKIE=`xauth list $DISPLAY | sed -r -e 's/^.+MIT/MIT/'`
+#COOKIE=`xauth list $DISPLAY | sed -r -e 's/^.+MIT/MIT/'`
+COOKIE=`xauth list :0 | sed -r -e 's/^.+MIT/MIT/'`
 
 # socket X servera
 XSOCK="/tmp/.X11-unix/X0"
@@ -72,7 +73,10 @@ fi
 
 
 # define where your backup .appdata are
-E_DIR_B=$HOME/Documents-sync/e-deklaracje/.appdata
+#E_DIR_B=$HOME/Documents-sync/e-deklaracje/.appdata
+#E_DIR=$HOME/.appdata
+
+E_DIR_B=$HOME/backup/edeklaracje
 E_DIR=$HOME/.appdata
 # Get the dir name where Backups lays
 E=$(find "$E_DIR_B" -maxdepth 1 -type d  -name "e-Deklaracje*" | awk -F/ '{ print $NF }')
@@ -86,7 +90,7 @@ if [[ -d $E_DIR_B ]] && [[ ! -d $E_DIR/$E ]]; then
         rsync -a --progress $E_DIR_B/ $E_DIR/
 fi
 
-BACKUP=$HOME/Documents-sync/e-deklaracje
+BACKUP=$E_DIR_B
 
 # na wszelki wypadek pytamy juzera
 if [ -e "$HOME"/.appdata/e-Deklaracje* ]; then
@@ -109,8 +113,8 @@ fi
 echo -ne "\nUruchamiam kontener $CONTAINER_NAME...\n"
 
 # http://stackoverflow.com/questions/22944631/how-to-get-the-ip-address-of-the-docker-host-from-inside-a-docker-container
-HOST_IP_DEV=`/sbin/ip route|awk '/default/ { print $5 }'`
-HOST_IP=`/sbin/ip -4 addr show $HOST_IP_DEV | grep -Po 'inet \K[\d.]+'`
+HOST_IP_DEV=`ip route|awk '/default/ { print $5 }'`
+HOST_IP=`ip -4 addr show $HOST_IP_DEV | grep -Po 'inet \K[\d.]+'`
 docker run --rm -ti \
   -v "$XSOCK":"$XSOCK" \
   -v "$HOME/.appdata":"$HOME/.appdata" \

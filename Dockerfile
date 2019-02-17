@@ -17,16 +17,22 @@ RUN set -e -x ; \
 							gtk2-engines-murrine:i386 \
 							libqt4-qt3support:i386 \
 							libgnome-keyring0:i386 \
-							libxaw7 ; \
-     rm -rf /var/lib/apt/lists/*
+							tzdata \
+                                                        bzip2 \
+                                                        mlocate \
+                                                        libxslt1.1 \
+                                                        language-pack-pl-base \
+							libxaw7
+RUN apt-get clean
+RUN apt-get autoclean
+# update mlocate db
+RUN updatedb
 
 RUN locate libgnome-keyring.so /usr/lib/i386-linux-gnu/libgnome-keyring.so.0 /usr/lib/i386-linuxgnu/libgnome-keyring.so.0.2.0
 RUN  ln -s /usr/lib/i386-linux-gnu/libgnome-keyring.so.0 /usr/lib/libgnome-keyring.so.0
 RUN  ln -s /usr/lib/i386-linux-gnu/libgnome-keyring.so.0.2.0 /usr/lib/libgnomekeyring.so.0.2.0
 
-# właściwe locale jest właściwe
 # http://jaredmarkell.com/docker-and-locales/
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y language-pack-pl-base
 RUN locale-gen pl_PL.UTF-8
 ENV LANG pl_PL.UTF-8
 ENV LANGUAGE pl_PL:pl
