@@ -139,6 +139,7 @@ cat /tmp/certyfikaty.crt >> $EDEKLARACJE_HOME/.appdata/Adobe/AIR/Certs/curl-ca-b
 
 exec su - $EDEKLARACJE_USER -c "
 # magic: http://www.linuxquestions.org/questions/linux-newbie-8/xlib-connection-to-0-0-refused-by-server-xlib-no-protocol-specified-152556/
+# support for mac os x: http://oroborosx.sourceforge.net/remotex.html
 # na wszelki wypadek -- jeśli gid/uid/username się zgadzają, to powinno niby wszystko działać...
 #xauth add \$HOSTNAME/unix:0 $MIT_COOKIE
 xauth add `xauth list :0`
