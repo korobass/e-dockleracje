@@ -13,7 +13,7 @@ RUN set -e -x ; \
 							libnss-mdns:i386 \
 							libxml2:i386 \
 							libxslt1.1:i386 \
-							#libcanberra-gtkmodule:i386 \
+							libcanberra-gtkmodule:i386 \
 							gtk2-engines-murrine:i386 \
 							libqt4-qt3support:i386 \
 							libgnome-keyring0:i386 \
@@ -22,7 +22,9 @@ RUN set -e -x ; \
                                                         mlocate \
                                                         libxslt1.1 \
                                                         language-pack-pl-base \
-							libxaw7
+							libxaw7 \
+							ant
+
 RUN apt-get clean
 RUN apt-get autoclean
 # update mlocate db
@@ -52,7 +54,7 @@ RUN wget -O /opt/air.bin --progress=bar:force http://airdownload.adobe.com/air/l
       && chmod +x /opt/air.bin \
       && xvfb-run /opt/air.bin -silent -eulaAccepted \
       && rm /opt/air.bin
-
+RUN rm -f /usr/lib/libgnome-keyring.so.0 /usr/lib/libgnome-keyring.so.0.2.0
 # via http://ask.xmodulo.com/install-adobe-reader-ubuntu-13-10.html
 RUN wget -O /opt/acroread.deb --progress=bar:force http://ardownload.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i386linux_enu.deb \
       && DEBIAN_FRONTEND=noninteractive dpkg -i --force-architecture /opt/acroread.deb \
@@ -67,7 +69,7 @@ ADD cups_client.conf /etc/cups/client.conf
 # UWAGA - pamiętaj o zmienie konfiguracji CUPS hosta zgodnie z opisem
 
 # ADD, bo inaczej nie ma jak zaktualizować edeklaracji aby pobrać nowe formularze
-ADD http://www.finanse.mf.gov.pl/documents/766655/1196444/e-DeklaracjeDesktop.air /opt/edeklaracje.air
+ADD http://www.e-deklaracje.gov.pl/files/dopobrania/e-dek/app/e-DeklaracjeDesktop.air /opt/edeklaracje.air
 RUN xvfb-run '/opt/Adobe AIR/Versions/1.0/Adobe AIR Application Installer' -silent -eulaAccepted /opt/edeklaracje.air
 
 # reszta ustawień
