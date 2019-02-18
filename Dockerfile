@@ -13,7 +13,7 @@ RUN set -e -x ; \
 							libnss-mdns:i386 \
 							libxml2:i386 \
 							libxslt1.1:i386 \
-							libcanberra-gtkmodule:i386 \
+							libcanberra-gtk-module:i386 \
 							gtk2-engines-murrine:i386 \
 							libqt4-qt3support:i386 \
 							libgnome-keyring0:i386 \
